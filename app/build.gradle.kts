@@ -1,15 +1,14 @@
-// file: app/build.gradle.kts
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("com.android.application") version "8.2.2"
+    id("org.jetbrains.kotlin.android") version "1.9.22"
 }
 
 android {
-    namespace = "io.github.romanvht.byedpi"
+    namespace = "org.plum.vpn"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.github.romanvht.byedpi"
+        applicationId = "org.plum.vpn"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -21,7 +20,6 @@ android {
             isMinifyEnabled = false
         }
     }
-    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -34,12 +32,6 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    
-    // ЭТА СТРОКА ДОБАВЛЕНА ДЛЯ ИСПРАВЛЕНИЯ ОШИБКИ ТЕМЫ
+    // Эта библиотека нужна для работы Material-компонентов
     implementation("com.google.android.material:material:1.11.0")
 }
