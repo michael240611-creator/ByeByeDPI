@@ -1,4 +1,3 @@
-# file: .github/workflows/build.yml
 name: Build APK
 on:
   push:
@@ -16,11 +15,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Generate Gradle Wrapper
-        run: gradle wrapper --gradle-version 8.2
-        env:
-          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m"
+      # 1. Принудительно скачиваем и устанавливаем Gradle 8.2 в систему
+      - name: Setup Gradle 8.2
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.2
           
+      # 2. Генерируем wrapper (теперь он точно возьмет 8.2)
+      - name: Generate Wrapper
+        run: gradle wrapper --gradle-version 8.2
+        
+      # 3. Собираем проект
       - name: Build APK
         run: ./gradlew assembleDebug
         env:
