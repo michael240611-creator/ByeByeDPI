@@ -1,3 +1,4 @@
+# file: .github/workflows/build.yml
 name: Build APK
 on:
   push:
@@ -15,16 +16,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      # Отключаем кэш Gradle, который вызвал ошибку
-      - name: Setup Gradle Wrapper
+      - name: Generate Gradle Wrapper
         run: gradle wrapper --gradle-version 8.2
         env:
-          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -Dorg.gradle.daemon=false"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m"
           
       - name: Build APK
         run: ./gradlew assembleDebug
         env:
-          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -Dorg.gradle.daemon=false"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m"
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
