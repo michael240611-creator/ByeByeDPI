@@ -34,13 +34,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Заголовок -->
+    <!-- Заголовок (ИЗМЕНЕН НА PLUM VPN) -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="DEAD DUCK"
+        android:text="PLUM VPN"
         android:textColor="#FF0000"
         android:textSize="28sp"
         android:fontFamily="sans-serif-black"
@@ -103,7 +103,7 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- КНОПКА DNS SCANNER (в самом низу) -->
+    <!-- КНОПКА DNS SCANNER -->
     <Button
         android:id="@+id/dnsTestButton"
         android:layout_width="match_parent"
