@@ -35,6 +35,7 @@ import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var historyUtils: HistoryUtils
 
     companion object {
         private val TAG: String = MainActivity::class.java.simpleName
@@ -112,6 +113,8 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         setupToolbar()
 
+        historyUtils = HistoryUtils(this)
+
         val intentFilter = IntentFilter().apply {
             addAction(STARTED_BROADCAST)
             addAction(STOPPED_BROADCAST)
@@ -125,19 +128,18 @@ class MainActivity : BaseActivity() {
             registerReceiver(receiver, intentFilter)
         }
 
-        // КНОПКА START/STOP (С !!)
-        binding.statusButtonCard!!.setOnClickListener {
-            binding.statusButtonCard!!.isClickable = false
+        // Обработка нажатий с защитой от null
+        binding.statusButtonCard?.setOnClickListener {
+            binding.statusButtonCard?.isClickable = false
             val (status, _) = appStatus
             when (status) {
                 AppStatus.Halted -> start()
                 AppStatus.Running -> stop()
             }
-            binding.statusButtonCard!!.postDelayed({ binding.statusButtonCard!!.isClickable = true }, 1000)
+            binding.statusButtonCard?.postDelayed({ binding.statusButtonCard?.isClickable = true }, 1000)
         }
 
-        // КНОПКА НАСТРОЕК
-        binding.settingsButton!!.setOnClickListener {
+        binding.settingsButton?.setOnClickListener {
             if (TestService.isRunning) {
                 Toast.makeText(this, R.string.test_unavailable, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -149,8 +151,7 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
-        // КНОПКА DNS ТЕСТЕРА (НОВАЯ)
-        binding.dnsTestButton!!.setOnClickListener {
+        binding.dnsTestButton?.setOnClickListener {
             startActivity(Intent(this, DnsTestActivity::class.java))
         }
 
@@ -242,27 +243,27 @@ class MainActivity : BaseActivity() {
         val (status, mode) = appStatus
         val (ip, port) = getPreferences().getProxyIpAndPort()
 
-        binding.proxyAddress!!.text = getString(R.string.proxy_address, ip, port)
+        binding.proxyAddress?.text = getString(R.string.proxy_address, ip, port)
 
         when (status) {
             AppStatus.Halted -> {
                 val typedValue = android.util.TypedValue()
                 theme.resolveAttribute(android.R.attr.colorPrimary, typedValue,true)
-                binding.statusButtonCard!!.setCardBackgroundColor(typedValue.data)
-                binding.statusButtonIcon!!.clearColorFilter()
+                binding.statusButtonCard?.setCardBackgroundColor(typedValue.data)
+                binding.statusButtonIcon?.clearColorFilter()
 
                 when (getPreferences().mode()) {
-                    Mode.VPN -> binding.statusText!!.setText(R.string.vpn_disconnected)
-                    Mode.Proxy -> binding.statusText!!.setText(R.string.proxy_down)
+                    Mode.VPN -> binding.statusText?.setText(R.string.vpn_disconnected)
+                    Mode.Proxy -> binding.statusText?.setText(R.string.proxy_down)
                 }
             }
             AppStatus.Running -> {
-                binding.statusButtonCard!!.setCardBackgroundColor(ContextCompat.getColor(this, R.color.green_active))
-                binding.statusButtonIcon!!.setColorFilter(ContextCompat.getColor(this, android.R.color.white))
+                binding.statusButtonCard?.setCardBackgroundColor(ContextCompat.getColor(this, R.color.green_active))
+                binding.statusButtonIcon?.setColorFilter(ContextCompat.getColor(this, android.R.color.white))
 
                 when (mode) {
-                    Mode.VPN -> binding.statusText!!.setText(R.string.vpn_connected)
-                    Mode.Proxy -> binding.statusText!!.setText(R.string.proxy_up)
+                    Mode.VPN -> binding.statusText?.setText(R.string.vpn_connected)
+                    Mode.Proxy -> binding.statusText?.setText(R.string.proxy_up)
                 }
             }
         }
