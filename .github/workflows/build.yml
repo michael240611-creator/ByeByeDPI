@@ -5,6 +5,10 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# ВОТ ЭТА СТРОКА ДАЕТ ПРАВА НА СОЗДАНИЕ РЕЛИЗА
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +33,6 @@ jobs:
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m"
           
-      # Этот шаг создает релиз и прикрепляет APK прямо туда
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
