@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Разрешения -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
@@ -13,26 +14,33 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Plum Duck"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ByeByeDPI"> <!-- ИСПОЛЬЗУЕМ НАШУ ТЕМУ -->
+        android:theme="@style/Theme.ByeByeDPI">
 
+        <!-- Главный экран -->
         <activity
             android:name=".activities.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.ByeByeDPI"> <!-- И ТУТ ТОЖЕ -->
+            android:theme="@style/Theme.ByeByeDPI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Остальные активити из оригинального проекта -->
+        <!-- НОВЫЙ ЭКРАН: DNS Тестер -->
+        <activity 
+            android:name=".activities.DnsTestActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ByeByeDPI" />
+
+        <!-- Оригинальные экраны ByeDPI -->
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.TestActivity" />
         <activity android:name=".activities.FileActivity" />
         <activity android:name=".activities.TestSettingsActivity" />
         <activity android:name=".activities.ToggleActivity" android:exported="true" />
 
-        <!-- Сервисы из оригинального проекта -->
+        <!-- Оригинальные сервисы ByeDPI -->
         <service android:name=".services.VpnService" android:permission="android.permission.BIND_VPN_SERVICE" android:exported="false">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -42,7 +50,7 @@
         <service android:name=".services.ProxyService" android:exported="false" />
         <service android:name=".services.TestService" android:exported="false" />
 
-        <!-- Ресиверы -->
+        <!-- Оригинальные ресиверы -->
         <receiver android:name=".receiver.BootReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
