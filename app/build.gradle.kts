@@ -5,11 +5,12 @@ plugins {
 }
 
 android {
-    namespace = "io.github.romanvht.byedpi"
+    // МЕНЯЕМ ID, ЧТОБЫ НЕ БЫЛО КОНФЛИКТА С ОРИГИНАЛЬНЫМ BYEDPI
+    namespace = "com.plum.vpn" 
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.github.romanvht.byedpi"
+        applicationId = "com.plum.vpn" // ТОЖЕ МЕНЯЕМ
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -30,7 +31,6 @@ android {
         jvmTarget = "17"
     }
     
-    // ВКЛЮЧАЕМ ВСЁ, ЧТО СЛОМАЛОСЬ
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-    // Базовые зависимости
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -50,12 +49,10 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("com.google.android.material:material:1.11.0")
-    
-    // Корутины и Gson (нужны для работы сервисов)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("com.google.code.gson:gson:2.10.1")
     
-    // Jetpack Compose (для нашего экрана DNS-тестера)
+    // Compose для DNS-тестера
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
