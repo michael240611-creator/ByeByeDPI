@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     
-    <!-- Наша тема без Dynamic Colors -->
-    <style name="Theme.ByeByeDPI" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- ОБЪЯВЛЯЕМ ТУ САМУЮ ТЕМУ, КОТОРУЮ ОН ИЩЕТ -->
+    <style name="Theme.Material3.DynamicColors.DayNight.NoActionBar" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Можем оставить пустой, главное чтобы она существовала -->
+    </style>
+
+    <!-- Наша кастомная тема на её основе -->
+    <style name="Theme.ByeByeDPI" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
         <item name="colorPrimary">#FF0000</item>
         <item name="colorOnPrimary">#000000</item>
         <item name="colorSecondary">#8B0000</item>
@@ -16,7 +21,6 @@
         <item name="android:navigationBarColor">#0A0000</item>
     </style>
 
-    <!-- Восстанавливаем стиль для оригинального кода ByeDPI -->
     <style name="SmallShadowCard">
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">8dp</item>
