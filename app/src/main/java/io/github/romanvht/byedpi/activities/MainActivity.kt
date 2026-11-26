@@ -13,10 +13,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -39,7 +35,6 @@ import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var historyUtils: HistoryUtils
 
     companion object {
         private val TAG: String = MainActivity::class.java.simpleName
@@ -48,9 +43,7 @@ class MainActivity : BaseActivity() {
         private fun collectLogs(): String? {
             return try {
                 val process = Runtime.getRuntime().exec("logcat *:D -d")
-                process.inputStream.bufferedReader().use { reader ->
-                    reader.readText()
-                }
+                process.inputStream.bufferedReader().use { it.readText() }
             } catch (exception: Exception) {
                 Log.e(TAG, "Failed to collect logs", exception)
                 null
@@ -82,27 +75,13 @@ class MainActivity : BaseActivity() {
         if (uri == null && file == null) return
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val logs = collectLogs()
-            if (logs == null) {
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity, R.string.logs_failed, Toast.LENGTH_SHORT).show()
-                }
+            val logs = collectLogs() ?: run {
+                runOnUiThread { Toast.makeText(this@MainActivity, R.string.logs_failed, Toast.LENGTH_SHORT).show() }
                 return@launch
             }
-
             try {
-                val outputStream = when {
-                    uri != null -> contentResolver.openOutputStream(uri)
-                    file != null -> file.outputStream()
-                    else -> null
-                }
-                if (outputStream == null) {
-                    Log.e(TAG, "Failed to open output stream")
-                } else {
-                    outputStream.use { stream ->
-                        stream.write(logs.toByteArray())
-                    }
-                }
+                val outputStream = if (uri != null) contentResolver.openOutputStream(uri) else file?.outputStream()
+                outputStream?.use { it.write(logs.toByteArray()) }
             } catch (exception: Exception) {
                 Log.e(TAG, "Failed to save logs", exception)
             }
@@ -111,18 +90,16 @@ class MainActivity : BaseActivity() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Log.d(TAG, "Received intent: ${intent?.action}")
             if (intent == null) return
             val senderOrd = intent.getIntExtra(SENDER, -1)
             val sender = Sender.entries.getOrNull(senderOrd) ?: return
 
-            when (val action = intent.action) {
+            when (intent.action) {
                 STARTED_BROADCAST, STOPPED_BROADCAST -> updateStatus()
                 FAILED_BROADCAST -> {
                     Toast.makeText(context, getString(R.string.failed_to_start, sender.name), Toast.LENGTH_SHORT).show()
                     updateStatus()
                 }
-                else -> Log.w(TAG, "Unknown action: $action")
             }
         }
     }
@@ -134,8 +111,6 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
-
-        historyUtils = HistoryUtils(this)
 
         val intentFilter = IntentFilter().apply {
             addAction(STARTED_BROADCAST)
@@ -150,7 +125,7 @@ class MainActivity : BaseActivity() {
             registerReceiver(receiver, intentFilter)
         }
 
-        // ДОБАВЛЕНЫ !! ДЛЯ ИЗБЕЖАНИЯ ОШИБОК NULL
+        // КНОПКА START/STOP (С !!)
         binding.statusButtonCard!!.setOnClickListener {
             binding.statusButtonCard!!.isClickable = false
             val (status, _) = appStatus
@@ -158,11 +133,10 @@ class MainActivity : BaseActivity() {
                 AppStatus.Halted -> start()
                 AppStatus.Running -> stop()
             }
-            binding.statusButtonCard!!.postDelayed({
-                binding.statusButtonCard!!.isClickable = true
-            }, 1000)
+            binding.statusButtonCard!!.postDelayed({ binding.statusButtonCard!!.isClickable = true }, 1000)
         }
 
+        // КНОПКА НАСТРОЕК
         binding.settingsButton!!.setOnClickListener {
             if (TestService.isRunning) {
                 Toast.makeText(this, R.string.test_unavailable, Toast.LENGTH_SHORT).show()
@@ -172,13 +146,12 @@ class MainActivity : BaseActivity() {
                 Toast.makeText(this, R.string.settings_unavailable, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
+        // КНОПКА DNS ТЕСТЕРА (НОВАЯ)
         binding.dnsTestButton!!.setOnClickListener {
-            val intent = Intent(this, DnsTestActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, DnsTestActivity::class.java))
         }
 
         if (!PermissionUtils.hasNotificationPermission(this)) {
@@ -206,17 +179,6 @@ class MainActivity : BaseActivity() {
         unregisterReceiver(receiver)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            requestBatteryOptimization()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -225,14 +187,21 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_diagnostics -> {
-                showDiagnostics()
-                true
-            }
-            R.id.action_save_logs -> {
-                val intent = Intent(this, FileActivity::class.java)
-                intent.putExtra(FileActivity.EXTRA_MODE, FileActivity.MODE_CREATE)
-                intent.putExtra(FileActivity.EXTRA_TYPE, FileActivity.TYPE_LOGS)
-                logsRegister.launch(intent)
+                val report = DiagnosticUtils.buildReport(this)
+                val scrollView = android.widget.ScrollView(this).apply {
+                    addView(TextView(this@MainActivity).apply {
+                        text = report
+                        setPadding(50, 50, 50, 50)
+                    })
+                }
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.diagnostics)
+                    .setView(scrollView)
+                    .setPositiveButton(R.string.diagnostic_copy) { _, _ ->
+                        ClipboardUtils.copy(this, report, getString(R.string.diagnostics))
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
                 true
             }
             R.id.action_close_app -> {
@@ -242,7 +211,6 @@ class MainActivity : BaseActivity() {
                         TestService.awaitStopped()
                         ServiceManager.waitStop()
                     } catch (exception: Exception) {
-                        Log.e(TAG, "Failed to stop service before closing", exception)
                         return@launch
                     }
                     finishAffinity()
@@ -255,48 +223,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun showDiagnostics() {
-        val report = DiagnosticUtils.buildReport(this)
-        val padding = (24 * resources.displayMetrics.density).toInt()
-
-        val textView = TextView(this).apply {
-            text = report
-            setPadding(padding, padding / 2, padding, padding / 2)
-        }
-        val scrollView = ScrollView(this).apply { addView(textView) }
-        val dialog = AlertDialog.Builder(this)
-            .setTitle(R.string.diagnostics)
-            .setView(scrollView)
-            .setPositiveButton(R.string.diagnostic_copy) { _, _ ->
-                ClipboardUtils.copy(this, report, getString(R.string.diagnostics))
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-        dialog.setOnShowListener {
-            val copyButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            val cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            copyButton.nextFocusLeftId = cancelButton.id
-            copyButton.nextFocusRightId = cancelButton.id
-            cancelButton.nextFocusLeftId = copyButton.id
-            cancelButton.nextFocusRightId = copyButton.id
-            copyButton.requestFocus()
-        }
-        dialog.show()
-    }
-
     private fun start() {
-        if (TestService.isRunning) {
-            Toast.makeText(this, R.string.test_unavailable, Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (TestService.isRunning) return
         when (getPreferences().mode()) {
             Mode.VPN -> {
                 val intentPrepare = VpnService.prepare(this)
-                if (intentPrepare != null) {
-                    vpnRegister.launch(intentPrepare)
-                } else {
-                    ServiceManager.start(this, Mode.VPN)
-                }
+                if (intentPrepare != null) vpnRegister.launch(intentPrepare) else ServiceManager.start(this, Mode.VPN)
             }
             Mode.Proxy -> ServiceManager.start(this, Mode.Proxy)
         }
@@ -308,8 +240,7 @@ class MainActivity : BaseActivity() {
 
     private fun updateStatus() {
         val (status, mode) = appStatus
-        val preferences = getPreferences()
-        val (ip, port) = preferences.getProxyIpAndPort()
+        val (ip, port) = getPreferences().getProxyIpAndPort()
 
         binding.proxyAddress!!.text = getString(R.string.proxy_address, ip, port)
 
@@ -320,7 +251,7 @@ class MainActivity : BaseActivity() {
                 binding.statusButtonCard!!.setCardBackgroundColor(typedValue.data)
                 binding.statusButtonIcon!!.clearColorFilter()
 
-                when (preferences.mode()) {
+                when (getPreferences().mode()) {
                     Mode.VPN -> binding.statusText!!.setText(R.string.vpn_disconnected)
                     Mode.Proxy -> binding.statusText!!.setText(R.string.proxy_down)
                 }
@@ -339,8 +270,7 @@ class MainActivity : BaseActivity() {
 
     private fun requestBatteryOptimization() {
         val preferences = getPreferences()
-        val alreadyRequested = preferences.getBoolean(BATTERY_OPTIMIZATION_REQUESTED, false)
-        if (!alreadyRequested && !PermissionUtils.isBatteryOptimizationDisabled(this)) {
+        if (!preferences.getBoolean(BATTERY_OPTIMIZATION_REQUESTED, false) && !PermissionUtils.isBatteryOptimizationDisabled(this)) {
             PermissionUtils.requestBatteryOptimization(this)
             preferences.edit { putBoolean(BATTERY_OPTIMIZATION_REQUESTED, true) }
         }
