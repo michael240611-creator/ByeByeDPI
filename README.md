@@ -1,65 +1,38 @@
-<div align="center">
-  <p>
-    <img src="https://github.com/romanvht/ByeDPIAndroid/raw/master/.github/images/app.svg" alt="Логотип ByeDPI" width="200" />
-  </p>
-  <h1>ByeByeDPI Android</h1>
-  <p>
-    Русский |
-    <a href="README-en.md">English</a> |
-    <a href="README-tr.md">Türkçe</a>
-  </p>
-  <p>
-    <a href="https://github.com/romanvht/ByeByeDPI/releases/latest"><img src="https://img.shields.io/github/v/release/romanvht/ByeByeDPI" alt="Latest Release" /></a>
-    <a href="https://github.com/romanvht/ByeByeDPI/releases"><img src="https://img.shields.io/github/downloads/romanvht/ByeByeDPI/total" alt="Downloads" /></a>
-    <a href="https://github.com/romanvht/ByeByeDPI/blob/master/LICENSE"><img src="https://img.shields.io/github/license/romanvht/ByeByeDPI" alt="License" /></a>
-    <a href="https://github.com/romanvht/ByeByeDPI"><img src="https://img.shields.io/github/languages/code-size/romanvht/ByeByeDPI" alt="GitHub code size in bytes"/></a>
-  </p>
-</div>
+# 💀 Plum VPN
 
-Приложение для Android, которое локально запускает ByeDPI и перенаправляет весь трафик через него.
+**Хакерский интерфейс. Кровавый неон. Обход DPI без компромиссов.**
 
-Для стабильной работы может потребоваться изменить настройки. Подробнее о различных настройках можно прочитать в [документации ByeDPI](https://github.com/hufrea/byedpi/blob/main/README.md).
+Это кастомная сборка на базе движка **ByeDPI**. Мы взяли лучший инструмент для обхода глубокого анализа трафика (DPI) и завернули его в мрачный, минималистичный интерфейс.
 
-Приложение не является VPN. Оно использует VPN-режим на Android для перенаправления трафика, но не передает ничего на удаленный сервер. Оно не шифрует трафик и не скрывает ваш IP-адрес.
+## ⚡ Особенности
 
-У приложения есть единственный официальный сайт -> https://byebyedpi.xyz
+- 🚀 **Движок ByeDPI:** Нативная фрагментация TLS, которая обходит блокировки YouTube, Discord и Telegram.
+- 💀 **Horror UI:** Черный фон, кроваво-красные акценты и анимированный скелет, который появляется из ниоткуда.
+- 🛡 **Системный VPN:** Работает как обычный VPN-клиент, перехватывая весь трафик устройства без удаленного сервера.
+- 📋 **Списки доменов:** Позволяет гибко настраивать, какие сайты обходить, а какие пускать напрямую.
+- 🧪 **Тест стратегий:** Встроенный инструмент для подбора рабочего обхода под твоего провайдера.
+- 📡 **DNS Сканер:** Отдельный экран для проверки скорости и доступности различных DNS-серверов на доменах YouTube.
+
+## 🛠 Сборка и установка
+
+Приложение собирается автоматически при каждом обновлении кода.
+
+1. Перейди во вкладку **Actions** в этом репозитории.
+2. Выбери последний успешный запуск (зеленая галочка).
+3. Прокрути страницу вниз до раздела **Artifacts** и скачай `app-debug.zip`.
+4. Распакуй архив, достань `.apk` и установи на телефон.
+   *(Либо зайди во вкладку **Releases** и скачай готовый APK оттуда).*
+
+## ⚙️ Как это работает
+
+1. Нажимаешь **ВОЙТИ**. Приложение поднимает системный VPN-туннель.
+2. Весь трафик перенаправляется в локальный SOCKS5-прокси.
+3. Движок ByeDPI разбивает пакеты `ClientHello` в TLS-рукопожатии.
+4. Провайдер не видит, на какой сайт ты заходишь, и соединение проходит напрямую.
+
+## ⚠️ Важно
+
+Приложение не шифрует трафик и не скрывает твой IP-адрес. Оно нужно исключительно для обхода DPI-блокировок на уровне пакетов. Для полной анонимности используй связку с обычным VPN.
 
 ---
-
-### Возможности
-* Автозапуск сервиса при старте устройства
-* Сохранение списков параметров командной строки
-* Улучшена совместимость с Android TV/BOX
-* Раздельное туннелирование приложений
-* Импорт/экспорт настроек
-
-### Использование
-* Для работы автозапуска активируйте пункт в настройках.
-* Рекомендуется подключится один раз к VPN, чтобы принять запрос.
-* После этого, при загрузке устройства, приложение автоматически запустит сервис в зависимости от настроек (VPN/Proxy)
-* Комплексная инструкция от комьюнити [ByeByeDPI-Manual](https://byebyedpi.xyz)
-
-### Сборка
-1. Клонируйте репозиторий с сабмодулями:
-```bash
-git clone --recurse-submodules
-```
-2. Запустите скрипт сборки из корня репозитория:
-```bash
-./gradlew assembleRelease
-```
-3. APK будет в `app/build/outputs/apk/release/`
-
-> P.S.: hev_socks5_tunnel не соберется под Windows, вам нужно будет использовать WSL
-
-### Хеш подписи
-SHA-256:
-`77:45:10:75:AC:EA:40:64:06:47:5D:74:D4:59:88:3A:49:A6:40:51:FA:F3:2E:42:F7:18:F3:F9:77:7A:8D:FB`
-
-### Зависимости
-- [ByeDPI](https://github.com/hufrea/byedpi)
-- [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel)
-
-### Благодарность
-- [hufrea](https://github.com/hufrea) - за [ByeDPI](https://github.com/hufrea/byedpi)
-- [dovecoteescapee](https://github.com/dovecoteescapee) - за изначальную реализацию [ByeDPIAndroid](https://github.com/dovecoteescapee/ByeDPIAndroid)
+*Сделано с ненавистью к ТСПУ.*
