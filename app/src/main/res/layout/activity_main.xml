@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:background="#0A0000">
 
-    <!-- ВОЗВРАЩАЕМ TOOLBAR -->
+    <!-- ОБЯЗАТЕЛЬНЫЙ TOOLBAR (Без него BaseActivity вылетает) -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Иконка настроек -->
     <ImageButton
         android:id="@+id/settingsButton"
         android:layout_width="48dp"
@@ -24,6 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+    <!-- Череп -->
     <ImageView
         android:id="@+id/skullImage"
         android:layout_width="180dp"
@@ -34,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsButton" />
 
+    <!-- Заголовок -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -45,13 +48,12 @@
         android:fontFamily="sans-serif-black"
         android:letterSpacing="0.15"
         android:shadowColor="#8B0000"
-        android:shadowDx="0"
-        android:shadowDy="0"
         android:shadowRadius="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/skullImage" />
 
+    <!-- Статус -->
     <TextView
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
@@ -65,6 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+    <!-- Главная кнопка (START/STOP) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/statusButtonCard"
         android:layout_width="160dp"
@@ -95,11 +98,11 @@
                 android:text="ВОЙТИ"
                 android:textColor="#FF0000"
                 android:textSize="20sp"
-                android:fontFamily="sans-serif-black"
-                android:letterSpacing="0.1" />
+                android:fontFamily="sans-serif-black" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- КНОПКА DNS SCANNER -->
     <Button
         android:id="@+id/dnsTestButton"
         android:layout_width="match_parent"
@@ -116,12 +119,19 @@
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- СКРЫТЫЙ БЛОК (Критически важен для того, чтобы код не падал с NullPointerException) -->
     <LinearLayout
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:visibility="gone">
-        <TextView android:id="@+id/proxyAddress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <LinearLayout android:id="@+id/cmdButtonsRow">
+        <TextView 
+            android:id="@+id/proxyAddress" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" />
+        <LinearLayout 
+            android:id="@+id/cmdButtonsRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <Button android:id="@+id/editorButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             <Button android:id="@+id/testProxyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             <Button android:id="@+id/domainListsButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
