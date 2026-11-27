@@ -1,62 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Разрешения для работы VPN, сети и уведомлений -->
+    
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".ByeDpiApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_skull"
-        android:label="Plum VPN"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.ByeByeDPI">
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="Test App"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
-        <!-- Главный экран -->
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.ByeByeDPI">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Экран DNS Сканера -->
-        <activity 
-            android:name=".activities.DnsTestActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ByeByeDPI" />
-
-        <!-- Оригинальные экраны ByeDPI (логи, настройки, тесты) -->
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.TestActivity" />
-        <activity android:name=".activities.FileActivity" />
-        <activity android:name=".activities.TestSettingsActivity" />
-        <activity android:name=".activities.ToggleActivity" android:exported="true" />
-
-        <!-- Службы (Сервисы) для работы движка и VPN -->
-        <service android:name=".services.VpnService" android:permission="android.permission.BIND_VPN_SERVICE" android:exported="false">
-            <intent-filter>
-                <action android:name="android.net.VpnService" />
-            </intent-filter>
-        </service>
-        
-        <service android:name=".services.ProxyService" android:exported="false" />
-        <service android:name=".services.TestService" android:exported="false" />
-
-        <!-- Автозапуск при включении телефона -->
-        <receiver android:name=".receiver.BootReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        
     </application>
 </manifest>
