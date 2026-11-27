@@ -5,43 +5,43 @@
     android:layout_height="match_parent"
     android:background="#0A0000">
 
-    <!-- ОБЯЗАТЕЛЬНЫЙ TOOLBAR (Без него BaseActivity вылетает) -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Иконка настроек -->
     <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@android:drawable/ic_menu_preferences"
         app:tint="#8B0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- Череп -->
     <ImageView
         android:id="@+id/skullImage"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:focusable="false"
         android:src="@drawable/ic_skull"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsButton" />
 
-    <!-- Заголовок -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="PLUM VPN"
         android:textColor="#FF0000"
         android:textSize="28sp"
@@ -53,7 +53,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/skullImage" />
 
-    <!-- Статус -->
     <TextView
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
@@ -67,15 +66,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleText" />
 
-    <!-- Главная кнопка (START/STOP) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/statusButtonCard"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="80dp"
         app:cardBackgroundColor="#1A0000"
-        app:cardElevation="0dp"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statusText">
@@ -97,18 +97,19 @@
                 android:layout_centerInParent="true"
                 android:text="ВОЙТИ"
                 android:textColor="#FF0000"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:fontFamily="sans-serif-black" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- КНОПКА DNS SCANNER -->
     <Button
         android:id="@+id/dnsTestButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:focusable="true"
         android:text="DNS SCANNER"
         android:textColor="#FF0000"
         android:textStyle="bold"
@@ -119,19 +120,13 @@
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- СКРЫТЫЙ БЛОК (Критически важен для того, чтобы код не падал с NullPointerException) -->
+    <!-- Скрытые элементы, чтобы старый код не падал -->
     <LinearLayout
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:visibility="gone">
-        <TextView 
-            android:id="@+id/proxyAddress" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" />
-        <LinearLayout 
-            android:id="@+id/cmdButtonsRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <TextView android:id="@+id/proxyAddress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <LinearLayout android:id="@+id/cmdButtonsRow">
             <Button android:id="@+id/editorButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             <Button android:id="@+id/testProxyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             <Button android:id="@+id/domainListsButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
