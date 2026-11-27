@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    
-    <!-- ОБЪЯВЛЯЕМ ТУ САМУЮ ТЕМУ, КОТОРУЮ ОН ИЩЕТ -->
-    <style name="Theme.Material3.DynamicColors.DayNight.NoActionBar" parent="Theme.Material3.Dark.NoActionBar">
-        <!-- Можем оставить пустой, главное чтобы она существовала -->
-    </style>
-
-    <!-- Наша кастомная тема на её основе -->
-    <style name="Theme.ByeByeDPI" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+    <style name="Theme.ByeByeDPI" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#FF0000</item>
         <item name="colorOnPrimary">#000000</item>
         <item name="colorSecondary">#8B0000</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-        
         <item name="android:windowBackground">#0A0000</item>
         <item name="colorSurface">#1A0000</item>
         <item name="colorOnSurface">#FFFFFF</item>
-        
         <item name="android:statusBarColor">#0A0000</item>
         <item name="android:navigationBarColor">#0A0000</item>
     </style>
-
     <style name="SmallShadowCard">
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">8dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
-
 </resources>
