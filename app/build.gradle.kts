@@ -1,4 +1,3 @@
-// file: app/build.gradle.kts
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -9,7 +8,6 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        // Оставляем тестовый пакет, чтобы обойти блокировку Honor
         applicationId = "com.test.honorapp123"
         minSdk = 21
         targetSdk = 34
@@ -31,7 +29,6 @@ android {
         jvmTarget = "17"
     }
     
-    // ВКЛЮЧАЕМ ВСЁ ОБРАТНО
     buildFeatures {
         viewBinding = true
         buildConfig = true
@@ -53,7 +50,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("com.google.code.gson:gson:2.10.1")
     
-    // Compose для DNS-тестера
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
