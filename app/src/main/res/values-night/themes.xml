@@ -1,27 +1,23 @@
-<resources>
-    <style name="Theme.ByeDPI" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#FFFFFF</item>
-        <item name="colorPrimaryVariant">#E5E5E5</item>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+    <style name="Theme.Material3.DynamicColors.DayNight.NoActionBar" parent="Theme.Material3.Dark.NoActionBar" />
+
+    <style name="Theme.ByeByeDPI" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#FF0000</item>
         <item name="colorOnPrimary">#000000</item>
-
-        <item name="colorSecondary">#5976DF</item>
-        <item name="colorSecondaryVariant">#3C52A3</item>
+        <item name="colorSecondary">#8B0000</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-
-        <item name="android:statusBarColor">#000000</item>
-        <item name="materialCardViewStyle">@style/SmallShadowCard</item>
+        <item name="android:windowBackground">#0A0000</item>
+        <item name="colorSurface">#1A0000</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="android:statusBarColor">#0A0000</item>
+        <item name="android:navigationBarColor">#0A0000</item>
     </style>
-
-    <style name="AppToolbar" parent="Widget.MaterialComponents.Toolbar.Surface" />
-
-    <style name="CircleButton" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">60dp</item>
-        <item name="android:textSize">0sp</item>
-        <item name="backgroundTint">?attr/colorPrimary</item>
-        <item name="iconTint">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <!-- -->
+    
+    <style name="SmallShadowCard">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardUseCompatPadding">true</item>
     </style>
 </resources>
