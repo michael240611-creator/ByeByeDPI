@@ -1,4 +1,3 @@
-# file: .github/workflows/build.yml
 name: Build APK
 on:
   push:
@@ -31,9 +30,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-v1 # <-- НОВОЕ ИМЯ ТЕГА
+          tag_name: build-v1
           name: Plum VPN Build
           draft: false
           prerelease: true
-          make_latest: true # <-- ДЕЛАЕМ ЕГО ГЛАВНЫМ
+          make_latest: true
           files: app/build/outputs/apk/debug/app-debug.apk
