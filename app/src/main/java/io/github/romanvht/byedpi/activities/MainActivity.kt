@@ -1,27 +1,34 @@
+// file: app/src/main/java/io/github/romanvht/byedpi/activities/MainActivity.kt
 package io.github.romanvht.byedpi.activities
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
-import io.github.romanvht.byedpi.R
-import io.github.romanvht.byedpi.utility.SettingsUtils
-import io.github.romanvht.byedpi.utility.getPreferences
-import io.github.romanvht.byedpi.utility.getStringNotNull
+import android.widget.Toast
+import io.github.romanvht.byedpi.databinding.ActivityMainBinding
+import io.github.romanvht.byedpi.services.TestService
 
-abstract class BaseActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val prefs = getPreferences()
-        val lang = prefs.getStringNotNull("language", "system")
-        SettingsUtils.setLang(lang)
-        val theme = prefs.getStringNotNull("app_theme", "system")
-        SettingsUtils.setTheme(theme)
         super.onCreate(savedInstanceState)
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupToolbar()
 
-    protected fun setupToolbar() {
-        val toolbar: MaterialToolbar? = findViewById(R.id.toolbar)
-        if (toolbar != null) {
-            setSupportActionBar(toolbar)
+        // Настройки
+        binding.settingsButton?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
+        // DNS Сканер
+        binding.dnsTestButton?.setOnClickListener {
+            startActivity(Intent(this, DnsTestActivity::class.java))
+        }
+
+        // Кнопка ВКЛ/ВЫКЛ
+        binding.statusButtonCard?.setOnClickListener {
+            Toast.makeText(this, "Кнопка работает!", Toast.LENGTH_SHORT).show()
         }
     }
 }
