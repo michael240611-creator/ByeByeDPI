@@ -1,54 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#0A0000">
 
-    <include layout="@layout/app_toolbar" />
+    <!-- Иконка настроек -->
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_preferences"
+        app:tint="#8B0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Череп -->
+    <ImageView
+        android:id="@+id/skullImage"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_skull"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Заголовок -->
     <TextView
-        android:id="@+id/current_path"
-        android:layout_width="match_parent"
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="start"
-        android:maxLines="1"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="12dp" />
+        android:layout_marginTop="24dp"
+        android:text="PLUM VPN"
+        android:textColor="#FF0000"
+        android:textSize="28sp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.15"
+        android:shadowColor="#8B0000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skullImage" />
 
-    <ListView
-        android:id="@+id/files"
+    <!-- Статус -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="НЕ ПОДКЛЮЧЕНО"
+        android:textColor="#8B0000"
+        android:textSize="14sp"
+        android:fontFamily="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+    <!-- Главная кнопка (START/STOP) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/statusButtonCard"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="80dp"
+        app:cardBackgroundColor="#1A0000"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statusText">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            
+            <ImageView
+                android:id="@+id/statusButtonIcon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+                
+            <TextView
+                android:id="@+id/statusButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="ВОЙТИ"
+                android:textColor="#FF0000"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.1" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- КНОПКА DNS SCANNER -->
+    <Button
+        android:id="@+id/dnsTestButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:choiceMode="none"
-        android:divider="@null" />
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="DNS SCANNER"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:backgroundTint="#1A0000"
+        app:strokeColor="#8B0000"
+        app:strokeWidth="1dp"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- Скрытый блок (нужен для оригинального кода ByeDPI) -->
     <LinearLayout
-        android:id="@+id/save_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-        <EditText
-            android:id="@+id/file_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/file_name"
-            android:inputType="text"
-            android:maxLines="1" />
-
-        <Button
-            android:id="@+id/save_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/save" />
-
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone">
+        <TextView android:id="@+id/proxyAddress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <LinearLayout android:id="@+id/cmdButtonsRow">
+            <Button android:id="@+id/editorButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <Button android:id="@+id/testProxyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <Button android:id="@+id/domainListsButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <Button android:id="@+id/strategyButton" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/strategyButtonName" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/strategyButtonText" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
