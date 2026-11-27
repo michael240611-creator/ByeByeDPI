@@ -1,4 +1,3 @@
-// file: app/src/main/java/io/github/romanvht/byedpi/activities/BaseActivity.kt
 package io.github.romanvht.byedpi.activities
 
 import android.os.Bundle
