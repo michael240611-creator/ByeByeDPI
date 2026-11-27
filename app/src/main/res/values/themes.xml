@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- ХАК: Создаем тему, которую ищет система, но которой нет в библиотеке -->
+    <style name="Theme.Material3.DynamicColors.DayNight.NoActionBar" parent="Theme.Material3.Dark.NoActionBar" />
+
+    <!-- Наша основная тема -->
     <style name="Theme.ByeByeDPI" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#FF0000</item>
         <item name="colorOnPrimary">#000000</item>
@@ -11,6 +16,7 @@
         <item name="android:statusBarColor">#0A0000</item>
         <item name="android:navigationBarColor">#0A0000</item>
     </style>
+    
     <style name="SmallShadowCard">
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">8dp</item>
