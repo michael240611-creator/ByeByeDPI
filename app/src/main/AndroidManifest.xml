@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".ByeDpiApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_skull"
         android:label="Plum VPN"
@@ -17,19 +18,14 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.ByeByeDPI">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity 
-            android:name=".activities.DnsTestActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ByeByeDPI" />
-
+        <activity android:name=".activities.DnsTestActivity" android:exported="false" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.TestActivity" />
         <activity android:name=".activities.FileActivity" />
@@ -50,6 +46,5 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
     </application>
 </manifest>
