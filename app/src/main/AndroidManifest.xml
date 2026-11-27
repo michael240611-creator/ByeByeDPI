@@ -16,7 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_skull"
         android:label="Plum VPN"
-        android:banner="@drawable/ic_skull"
+        android:banner="@drawable/tv_banner" 
         android:supportsRtl="true"
         android:theme="@style/Theme.ByeByeDPI">
 
@@ -27,7 +27,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!-- Запуск с пульта ТВ -->
+                <!-- ВАЖНО: Тег для появления на главном экране ТВ -->
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
