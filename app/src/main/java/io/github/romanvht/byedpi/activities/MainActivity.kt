@@ -1,21 +1,27 @@
-// file: app/src/main/java/io/github/romanvht/byedpi/activities/MainActivity.kt
 package io.github.romanvht.byedpi.activities
 
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
+import io.github.romanvht.byedpi.R
+import io.github.romanvht.byedpi.utility.SettingsUtils
+import io.github.romanvht.byedpi.utility.getPreferences
+import io.github.romanvht.byedpi.utility.getStringNotNull
 
-class MainActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val prefs = getPreferences()
+        val lang = prefs.getStringNotNull("language", "system")
+        SettingsUtils.setLang(lang)
+        val theme = prefs.getStringNotNull("app_theme", "system")
+        SettingsUtils.setTheme(theme)
         super.onCreate(savedInstanceState)
-        
-        val text = TextView(this).apply {
-            text = "РАБОТАЕТ!"
-            setTextColor(Color.GREEN)
-            textSize = 30f
-            setBackgroundColor(Color.BLACK)
+    }
+
+    protected fun setupToolbar() {
+        val toolbar: MaterialToolbar? = findViewById(R.id.toolbar)
+        if (toolbar != null) {
+            setSupportActionBar(toolbar)
         }
-        setContentView(text)
     }
 }
